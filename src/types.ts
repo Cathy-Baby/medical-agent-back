@@ -1,12 +1,30 @@
-export interface AskRequestBody {
+export interface DiagnosisRequestBody {
   department: string;
   question: string;
 }
 
-export interface AskResponseBody {
+export interface DiagnosisResponseBody {
   diagnosis: string;
   drugs: string[];
   advice: string;
+}
+
+export interface DiagnosisRecordQueryBody {
+  limit?: number;
+  cursor?: number;
+}
+
+export interface DiagnosisRecord {
+  department: string;
+  question: string;
+  diagnosis: string;
+  drugs: string[];
+  advice: string;
+  createdAt: Date;
+}
+
+export interface DrugRequestBody {
+  name: string;
 }
 
 export interface OpenAIResponse {

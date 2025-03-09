@@ -43,7 +43,41 @@ export async function getResponse(prompt: string, jsonFormat: boolean = false): 
       error: `${error}`
     }
   }
-
 }
+
+export async function getResponseStream(prompt: string): Promise<NodeJS.ReadableStream> {
+  const data = {
+    model: "deepseek/deepseek-v3-turbo",
+    messages: [
+      { role: "system", content: "你是一位资深的医学专家，精通各种医术，对世界上所有的药品了如指掌，无数人在你的诊疗下起死回生。" },
+      { role: "user", content: prompt }
+    ],
+    temperature: 0.7,
+    max_tokens: 256,
+    top_p: 1,
+    frequency_penalty: 0,
+    presence_penalty: 0,
+    stream: true // 启用流式传输
+  };
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data)
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    return res.body;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+
 
 

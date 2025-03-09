@@ -2,7 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { env } from '@src/config';
 import { errorHandler } from '@src/middlewares/errorHandler';
-import askRouter from '@src/routes/dignosis.routes';
+import diagnosisRouter from '@src/routes/diagnosis.routes';
+import drugRouter from '@src/routes/drug.routes';
 
 const app = express();
 app.use(express.json());
@@ -19,7 +20,8 @@ app.use((req, res, next) => {
 });
 
 // 路由注册
-app.use('/api', askRouter);
+app.use('/api', diagnosisRouter);
+app.use('/api', drugRouter)
 
 // 错误处理
 app.use(errorHandler);
