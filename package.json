@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "npx ts-node src/app.ts"
+    "start": "npx ts-node -r tsconfig-paths/register src/app.ts"
   },
   "dependencies": {
     "@types/express": "^5.0.0",
@@ -9,11 +9,13 @@
     "express": "^4.21.2",
     "express-validator": "^7.2.1",
     "mongoose": "^8.12.1",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
+    "@types/node-fetch": "2.6.0",
     "@types/node": "^22.13.10",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.2"
   }
 }

@@ -1,8 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { env } from './config';
-import { errorHandler } from './middlewares/errorHandler';
-import askRouter from './routes/ask.routes';
+import { env } from '@src/config';
+import { errorHandler } from '@src/middlewares/errorHandler';
+import askRouter from '@src/routes/dignosis.routes';
 
 const app = express();
 app.use(express.json());
@@ -11,6 +11,12 @@ app.use(express.json());
 mongoose.connect(env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
+
+  // 中间件，输出请求日志
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
 
 // 路由注册
 app.use('/api', askRouter);
