@@ -4,9 +4,11 @@ import { env } from '@src/config';
 import { errorHandler } from '@src/middlewares/errorHandler';
 import diagnosisRouter from '@src/routes/diagnosis.routes';
 import drugRouter from '@src/routes/drug.routes';
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 // 数据库连接
 mongoose.connect(env.MONGODB_URI)

@@ -19,7 +19,7 @@ const createQuestionRecord = async (
 };
 
 router.post(
-  '/dignosis',
+  '/diagnosis',
   [
     body('department').isString().notEmpty(),
     body('question').isString().notEmpty()
@@ -32,20 +32,25 @@ router.post(
     }
 
     const { department, question } = req.body;
-    const fullQuestion = `你是一位资深的${department}专家，有一位患者在咨询你，请严格按照以下 JSON 格式回答问题：
+    const fullQuestion = `你是一位资深的${department}专家，有一位患者在咨询你，请严格按照以下 JSON 格式回答问题，不要有任何的 Markdown 语法等多余的东西。：
     {"diagnosis": "诊断结果", "drugs": ["药品1", "药品2", "药品3", "药品4"], "advice": "治疗建议"}
     问题：${question}`
 
     const response = await getResponse(fullQuestion, true);
-    if (response.success) {
-      const answer_str = response.data!.choices[0].message.content;
-      const answer = JSON.parse(answer_str) as DiagnosisResponseBody;
-      await createQuestionRecord(req, answer);
-
-      res.json({ success: true, data: answer });
-    } else {
-      res.status(500).json({ success: false, error: response.error });
+    try {
+      if (response.success) {
+        const answer_str = response.data!.choices[0].message.content;
+        const answer = JSON.parse(answer_str) as DiagnosisResponseBody;
+        await createQuestionRecord(req, answer);
+  
+        res.json({ success: true, data: answer });
+      } else {
+        res.status(500).json({ success: false, error: response.error });
+      }
+    } catch (error) {
+      res.status(500).json({ success: false, error: `${error}` });
     }
+    
   }
 );
 
