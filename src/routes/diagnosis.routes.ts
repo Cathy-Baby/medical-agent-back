@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { body, check, param, validationResult } from 'express-validator';
-import { DiagnosisRequestBody, APIResponse, DiagnosisResponseBody, DiagnosisRecord, DiagnosisRecordQueryBody } from '@src/types';
+import { DiagnosisRequestBody, APIResponse, DiagnosisResponseBody, DiagnosisRecord, DiagnosisRecordQuery } from '@src/types';
 import Question from '@src/models/Question';
 import { getResponse } from '@src/utils/openai';
 
@@ -55,7 +55,7 @@ router.get(
     param('limit').isInt().optional(),
     param('cursor').isInt().optional()
   ],
-  async function (req: Request<DiagnosisRecordQueryBody>, res: Response<APIResponse<DiagnosisRecord[]>>) {
+  async function (req: Request<DiagnosisRecordQuery>, res: Response<APIResponse<DiagnosisRecord[]>>) {
     const error = validationResult(req);
     if (!error.isEmpty()) {
       res.status(400).json({ success: false, error: error.array()[0].msg });

@@ -9,7 +9,7 @@ export interface DiagnosisResponseBody {
   advice: string;
 }
 
-export interface DiagnosisRecordQueryBody {
+export interface DiagnosisRecordQuery {
   limit?: number;
   cursor?: number;
 }
